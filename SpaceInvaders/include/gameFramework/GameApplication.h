@@ -3,8 +3,11 @@
 
 namespace Nonsense
 {
-    class GameApplication : public Application
-    {
-        
-    };
-}
+
+class GameApplication : public Application
+{
+public:
+    using Application::Application;
+};
+
+} // namespace Nonsense

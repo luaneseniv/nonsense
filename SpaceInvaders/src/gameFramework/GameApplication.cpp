@@ -3,10 +3,11 @@
 
 Nonsense::Application* GetApplication()
 {
-    return new Nonsense::GameApplication{};
+    return new Nonsense::GameApplication{"Space Invaders", 600, 900};
 }
 
 namespace Nonsense
 {
-    
-}
+
+
+} // namwspace Nonsense

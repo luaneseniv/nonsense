@@ -1,12 +1,15 @@
 # CMAKE ENGINE
 
 add_library(${ENGINE_TARGET_NAME} STATIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/EntryPoint.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Application.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Application.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Application.h
+${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Application.cpp
 
+${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Core.h
+${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Core.cpp
+
+${CMAKE_CURRENT_SOURCE_DIR}/include/EntryPoint.h
+${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
 )
 
 target_include_directories(${ENGINE_TARGET_NAME} PUBLIC

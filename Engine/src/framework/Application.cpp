@@ -1,12 +1,20 @@
 #include "framework/Application.h"
 
 
-Nonsense::Application::Application()
+namespace Nonsense
+{
+
+Application::Application()
     : mWindow{sf::VideoMode({600, 900}), "Game Window"},
     mTargetFrameRate{60.0f}
 {}
 
-void Nonsense::Application::Run()
+Application::Application(const std::string& windowTitle, unsigned int windowWidth, unsigned int windowHeight)
+    : mWindow{sf::VideoMode({windowWidth, windowHeight}), windowTitle},
+    mTargetFrameRate{60.0f}
+{}
+
+void Application::Run()
 {
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
@@ -34,7 +42,7 @@ void Nonsense::Application::Run()
 }
 
 
-void Nonsense::Application::RenderInternal()
+void Application::RenderInternal()
 {
     mWindow.clear();
 
@@ -43,15 +51,17 @@ void Nonsense::Application::RenderInternal()
     mWindow.display();
 }
 
-void Nonsense::Application::TickInternal(float deltaTime)
+void Application::TickInternal(float deltaTime)
 {
     Tick(deltaTime);
 }
 
-void Nonsense::Application::Render()
+void Application::Render()
 {
 }
 
-void Nonsense::Application::Tick(float deltaTime)
+void Application::Tick(float deltaTime)
 {
 }
+
+} // namespace Nonsense
