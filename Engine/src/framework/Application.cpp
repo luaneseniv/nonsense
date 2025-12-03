@@ -1,5 +1,5 @@
 #include "framework/Application.h"
-
+#include "framework/Core.h"
 
 namespace Nonsense
 {
@@ -16,6 +16,7 @@ Application::Application(const std::string& windowTitle, unsigned int windowWidt
 
 void Application::Run()
 {
+    NS_LOG("Starting application...");
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
     float accumulatedTime = 0.0f;
@@ -27,7 +28,10 @@ void Application::Run()
             if(event->is<sf::Event::Closed>() ||
                 (event->is<sf::Event::KeyPressed>() &&
                     event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape))
-                mWindow.close();
+                {
+                    mWindow.close();
+                    NS_LOG("Application Window Closed.");
+                }
         }
 
         // fixed framerate updating

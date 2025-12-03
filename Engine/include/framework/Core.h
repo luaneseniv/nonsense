@@ -6,6 +6,8 @@
 
 namespace Nonsense
 {
+////////////////////////////////////////////////////////////
+
 // common data types
 template <typename T>
 using TUniquePrt = std::unique_ptr<T>;
@@ -23,8 +25,10 @@ template <typename keyType, typename valueType, typename hasher = std::hash<keyT
 using TDict = std::unordered_map<keyType, valueType, hasher>;
 
 
+////////////////////////////////////////////////////////////
+
 // Simple log for the engine
-// TODO: create a log system
+// TODO: create a logger
 #define NS_LOG(Message, ...) printf(Message "\n", ##__VA_ARGS__)
 
 } // namespace Nonsense
