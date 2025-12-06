@@ -3,6 +3,7 @@
 #include <map>
 #include <unordered_map>
 #include <stdio.h>
+#include <string.h>
 
 namespace Nonsense
 {
@@ -16,7 +17,9 @@ template <typename T>
 using TSharedPtr = std::shared_ptr<T>;
 
 template <typename T>
-using TWeekPtr = std::weak_ptr<T>;
+using TWeakPtr = std::weak_ptr<T>;
+
+using FString = std::string;
 
 template <typename keyType, typename valueType, typename pre = std::less<keyType>>
 using TMap = std::map<keyType, valueType, pre>;

@@ -1,16 +1,22 @@
+#pragma once
 #include <SFML/Graphics.hpp>
-#include <string.h>
+#include "framework/Core.h"
 
 namespace Nonsense
 {
+class World;
 
 class Application
 {
 public:
     Application();
-    Application(const std::string& windowTitle, unsigned int windowWidth, unsigned int windowHeight);
+
+    void SetWindowConfigs(FString title, unsigned int windowWidth, unsigned int windowHeight);
 
     void Run();
+
+    template <typename WorldType>
+    TWeakPtr<WorldType> LoadWorld();
 
 private:
 
@@ -24,6 +30,16 @@ private:
 
     float mTargetFrameRate;
     sf::Clock mTickClock;
+
+    TSharedPtr<World> mCurrentWorld;
 };
 
-} // namespace Nonsense
+template <typename WorldType>
+TWeakPtr<WorldType> Application::LoadWorld()
+{
+    TSharedPtr<WorldType> newWorld{ new WorldType(this) };
+    mCurrentWorld = newWorld;
+    return newWorld;
+}
+
+}; // namespace Nonsense

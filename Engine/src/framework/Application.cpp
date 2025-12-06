@@ -1,22 +1,29 @@
 #include "framework/Application.h"
+#include <SFML/Graphics.hpp>
 #include "framework/Core.h"
+#include "framework/World.h"
+
 
 namespace Nonsense
 {
 
 Application::Application()
-    : mWindow{sf::VideoMode({600, 900}), "Game Window"},
-    mTargetFrameRate{60.0f}
+    : mWindow{sf::VideoMode({300, 450}), "Game Window"},
+    mTargetFrameRate{30.0f},
+    mCurrentWorld{nullptr}
 {}
 
-Application::Application(const std::string& windowTitle, unsigned int windowWidth, unsigned int windowHeight)
-    : mWindow{sf::VideoMode({windowWidth, windowHeight}), windowTitle},
-    mTargetFrameRate{60.0f}
-{}
+
+void Application::SetWindowConfigs(FString title, unsigned int windowWidth, unsigned int windowHeight)
+{
+    mWindow.setTitle(title);
+    mWindow.setSize({windowWidth, windowHeight});
+    NS_LOG("Game Window updated! New Tite = %s - New Size (WxH) = %dx%d.", title.c_str(), windowWidth, windowHeight);
+}
 
 void Application::Run()
 {
-    NS_LOG("Starting application...");
+    NS_LOG("Running the game...");
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
     float accumulatedTime = 0.0f;
@@ -30,7 +37,7 @@ void Application::Run()
                     event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape))
                 {
                     mWindow.close();
-                    NS_LOG("Application Window Closed.");
+                    NS_LOG("Game Window Closed.");
                 }
         }
 
@@ -58,6 +65,12 @@ void Application::RenderInternal()
 void Application::TickInternal(float deltaTime)
 {
     Tick(deltaTime);
+
+    if (mCurrentWorld)
+    {
+        mCurrentWorld->InternalBeginPlay();
+        mCurrentWorld->InternalTick(deltaTime);
+    }
 }
 
 void Application::Render()

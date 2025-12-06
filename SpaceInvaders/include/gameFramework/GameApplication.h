@@ -7,7 +7,7 @@ namespace Nonsense
 class GameApplication : public Application
 {
 public:
-    using Application::Application;
+    GameApplication();
 };
 
 } // namespace Nonsense
