@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <stdio.h>
 #include <string.h>
+#include <vector>
+
 
 namespace Nonsense
 {
@@ -19,7 +21,8 @@ using TSharedPtr = std::shared_ptr<T>;
 template <typename T>
 using TWeakPtr = std::weak_ptr<T>;
 
-using FString = std::string;
+template <typename T>
+using TArray = std::vector<T>;
 
 template <typename keyType, typename valueType, typename pre = std::less<keyType>>
 using TMap = std::map<keyType, valueType, pre>;
@@ -27,6 +30,7 @@ using TMap = std::map<keyType, valueType, pre>;
 template <typename keyType, typename valueType, typename hasher = std::hash<keyType>>
 using TDict = std::unordered_map<keyType, valueType, hasher>;
 
+using FString = std::string;
 
 ////////////////////////////////////////////////////////////
 
