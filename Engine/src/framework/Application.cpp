@@ -13,14 +13,15 @@ Application::Application(unsigned int windowWidth, unsigned int windowHeight,con
 
 }
 
+// Set game window at the center of the screen
 void Application::UpdateWindowPosition()
 {
-    mWindow.setPosition(mWindow.getPosition() - sf::Vector2<int>(mWindow.getSize()) / 2);
+    mWindow.setPosition((sf::Vector2<int>(mWindow.getSize()) - mWindow.getPosition()) / 2);
 }
 
 void Application::Run()
 {
-    // UpdateWindowPosition();
+    UpdateWindowPosition();
     
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
