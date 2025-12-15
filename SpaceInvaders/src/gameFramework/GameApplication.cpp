@@ -1,7 +1,8 @@
 #include "gameFramework/GameApplication.h"
-#include "framework/Core.h"
 #include "framework/World.h"
 #include "framework/Actor.h"
+
+#include "framework/Core.h"
 
 
 Nonsense::Application* GetApplication()
@@ -13,15 +14,20 @@ namespace Nonsense
 {
 
 GameApplication::GameApplication()
+    : Application{1280, 720, "Space Invaders", sf::Style::None} // frameless, no titlebar
 {
     NS_LOG("Created new game session!");
-    SetWindowConfigs("Space Invader", 1280, 720);
 
     // TEST: Create new world.
     TWeakPtr<UWorld> testWorld = LoadWorld<UWorld>();
     testWorld.lock()->SpawnActor<AActor>();
-    testWorld.lock()->SpawnActor<AActor>();
-    testWorld.lock()->SpawnActor<AActor>();
+    testWorld.lock()->SpawnActor<AActor>().lock()->Destroy();
+
 }
 
-} // namwspace Nonsense
+void GameApplication::Tick(float deltaTime)
+{
+
+}
+
+} // namespace Nonsense

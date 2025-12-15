@@ -1,4 +1,5 @@
 #include "framework/Actor.h"
+
 #include "framework/Core.h"
 
 namespace Nonsense
@@ -12,7 +13,7 @@ AActor::AActor(UWorld* owningWorld)
 
 AActor::~AActor()
 {
-
+    NS_LOG("Actor destroyed!");
 }
 
 void AActor::BeginPlay()

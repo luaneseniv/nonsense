@@ -1,13 +1,14 @@
 #pragma once
 
-#include "framework/Core.h"
+#include "framework/Object.h"
 
 
 namespace Nonsense
 {
+    
 class UWorld;
 
-class AActor
+class AActor : public UObject
 {
 
 public:

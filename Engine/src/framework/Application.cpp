@@ -1,24 +1,16 @@
 #include "framework/Application.h"
-#include "framework/Core.h"
 #include "framework/World.h"
 
 
 namespace Nonsense
 {
 
-Application::Application()
-    :   mWindow{sf::VideoMode({150, 150}), "Game Window"},
+Application::Application(unsigned int windowWidth, unsigned int windowHeight,const FString& title, std::uint32_t style)
+    :   mWindow{sf::VideoMode({windowWidth, windowHeight}), title, style},
         mTargetFrameRate{60.0f},
         mCurrentWorld{nullptr}
 {
 
-}
-
-void Application::SetWindowConfigs(FString title, unsigned int windowWidth, unsigned int windowHeight)
-{
-    mWindow.setTitle(title);
-    mWindow.setSize({windowWidth, windowHeight});
-    NS_LOG("Game Window has been updated! New Tite = %s - New Size (WxH) = %dx%d.", title.c_str(), windowWidth, windowHeight);
 }
 
 void Application::UpdateWindowPosition()
@@ -28,7 +20,7 @@ void Application::UpdateWindowPosition()
 
 void Application::Run()
 {
-    UpdateWindowPosition();
+    // UpdateWindowPosition();
     
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
@@ -58,7 +50,6 @@ void Application::Run()
             TickInternal(targetDeltaTime);
             RenderInternal();
         }
-
     }
 }
 

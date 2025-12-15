@@ -36,9 +36,17 @@ void UWorld::InternalTick(float deltaTime)
     mPendingActors.clear();
 
     // Actors tick
-    for (TSharedPtr<AActor> actor : mActors)
+    for (TArray<TSharedPtr<AActor>>::iterator it = mActors.begin(); it != mActors.end();)
     {
-        actor->Tick(deltaTime);
+        if(it->get()->IsPendingDestroy())
+        {
+            it = mActors.erase(it);
+        }
+        else
+        {
+            it->get()->Tick(deltaTime);
+            ++it;
+        }
     }
 
     // World tick

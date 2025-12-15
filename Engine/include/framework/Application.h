@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+
 #include "framework/Core.h"
 
 namespace Nonsense
@@ -9,9 +10,7 @@ class UWorld;
 class Application
 {
 public:
-    Application();
-
-    void SetWindowConfigs(FString title, unsigned int windowWidth, unsigned int windowHeight);
+    Application(unsigned int windowWidth, unsigned int windowHeight,const FString& title, std::uint32_t style);
     
     // Moves the window's position to the center of the screen.
     // By default, the init position (Top-Left corner) of the SF window always stay at the center of the screen.
@@ -24,13 +23,16 @@ public:
     template <typename WorldType>
     TWeakPtr<WorldType> LoadWorld();
 
+    // Return loading world
+    TSharedPtr<UWorld> GetCurrentWorld() const { return mCurrentWorld; };
+
 private:
 
     void RenderInternal();
     void TickInternal(float deltaTime);
 
-    void Render();
-    void Tick(float deltaTime);
+    virtual void Render();
+    virtual void Tick(float deltaTime);
 
     sf::RenderWindow mWindow;
 

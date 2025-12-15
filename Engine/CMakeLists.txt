@@ -44,6 +44,7 @@ function(CopyLibToTarget TARGET_NAME LIB_NAME)
 		$<TARGET_FILE_DIR:${TARGET_NAME}>
 	)
 endfunction()
+
 # copy sfml lib files to the engine
 foreach(libraryItem ${SFML_LIBS})
 CopyLibToTarget(${ENGINE_TARGET_NAME} ${libraryItem})
