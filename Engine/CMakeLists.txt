@@ -1,5 +1,6 @@
 # CMAKE ENGINE
 
+
 add_library(${ENGINE_TARGET_NAME} STATIC
 
 ${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Application.h
@@ -19,6 +20,12 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Core.cpp
 
 ${CMAKE_CURRENT_SOURCE_DIR}/include/EntryPoint.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
+)
+
+# Defined macros for each build config
+target_compile_definitions(${ENGINE_TARGET_NAME} PUBLIC
+	$<$<CONFIG:Debug>:DEVELOPMENT_BUILD>
+	$<$<CONFIG:Release>:SHIPPING_BUILD>
 )
 
 target_include_directories(${ENGINE_TARGET_NAME} PUBLIC

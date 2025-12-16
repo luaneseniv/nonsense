@@ -21,13 +21,18 @@ void Application::UpdateWindowPosition()
 
 void Application::Run()
 {
-    UpdateWindowPosition();
+    // UpdateWindowPosition();
     
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
     float accumulatedTime = 0.0f;
     
-    NS_LOG("Starting the game...");
+#ifdef SHIPPING_BUILD
+    NS_LOG("Starting the game... Shipping build.");
+#else
+    NS_LOG("Starting the game... Development build.");
+#endif
+
     while(mWindow.isOpen())
     {
         // Poll Events
@@ -77,10 +82,12 @@ void Application::TickInternal(float deltaTime)
 
 void Application::Render()
 {
+
 }
 
 void Application::Tick(float deltaTime)
 {
+
 }
 
 } // namespace Nonsense

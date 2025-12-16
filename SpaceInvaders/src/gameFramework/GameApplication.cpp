@@ -16,7 +16,12 @@ namespace Nonsense
 GameApplication::GameApplication()
     : Application{1280, 720, "Space Invaders", sf::Style::None} // frameless, no titlebar
 {
-    NS_LOG("Created new game session!");
+
+#ifdef SHIPPING_BUILD
+    NS_LOG("Created new game session! Shipping build.");
+#else
+    NS_LOG("Created new game session! Development build.");
+#endif
 
     // TEST: Create new world.
     TWeakPtr<UWorld> testWorld = LoadWorld<UWorld>();

@@ -5,6 +5,12 @@ add_executable(${GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameFramework/GameApplication.cpp
 )
 
+# Defined macros for each build config
+target_compile_definitions(${GAME_TARGET_NAME} PUBLIC
+	$<$<CONFIG:Debug>:DEVELOPMENT_BUILD>
+	$<$<CONFIG:Release>:SHIPPING_BUILD>
+)
+
 target_include_directories(${GAME_TARGET_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
