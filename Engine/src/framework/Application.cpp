@@ -1,6 +1,6 @@
 #include "framework/Application.h"
 #include "framework/World.h"
-
+#include "framework/AssetManager.h"
 
 namespace Nonsense
 {
@@ -8,7 +8,9 @@ namespace Nonsense
 Application::Application(unsigned int windowWidth, unsigned int windowHeight,const FString& title, std::uint32_t style)
     :   mWindow{sf::VideoMode({windowWidth, windowHeight}), title, style},
         mTargetFrameRate{60.0f},
-        mCurrentWorld{nullptr}
+        mCurrentWorld{nullptr},
+        mCleanCycleIterval{3.0f},
+        mCleanCycleClock{}
 {
 
 }
@@ -53,14 +55,14 @@ void Application::Run()
         while (accumulatedTime > targetDeltaTime)
         {
             accumulatedTime -= targetDeltaTime;
-            TickInternal(targetDeltaTime);
-            RenderInternal();
+            InternalTick(targetDeltaTime);
+            InternalRender();
         }
     }
 }
 
 
-void Application::RenderInternal()
+void Application::InternalRender()
 {
     mWindow.clear();
 
@@ -69,7 +71,7 @@ void Application::RenderInternal()
     mWindow.display();
 }
 
-void Application::TickInternal(float deltaTime)
+void Application::InternalTick(float deltaTime)
 {
     Tick(deltaTime);
 
@@ -78,10 +80,24 @@ void Application::TickInternal(float deltaTime)
         mCurrentWorld->InternalBeginPlay();
         mCurrentWorld->InternalTick(deltaTime);
     }
+
+    // cleanup unused textures
+    // every 3 seconds
+    if(float timmer = mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleIterval)
+    {
+        NS_LOG("Running asset cleaning.");
+        mCleanCycleClock.restart();
+        AssetManager::Get().CleanCycle();
+    }
+
 }
 
 void Application::Render()
 {
+    if(mCurrentWorld)
+    {
+        mCurrentWorld->Render(mWindow);
+    }
 
 }
 

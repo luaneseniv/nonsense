@@ -3,8 +3,9 @@
 #include <map>
 #include <unordered_map>
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <vector>
+#include <optional>
 
 
 namespace Nonsense
@@ -13,13 +14,16 @@ namespace Nonsense
 
 // common data types
 template <typename T>
-using TUniquePrt = std::unique_ptr<T>;
+using TUniquePtr = std::unique_ptr<T>;
 
 template <typename T>
 using TSharedPtr = std::shared_ptr<T>;
 
 template <typename T>
 using TWeakPtr = std::weak_ptr<T>;
+
+template <typename T>
+using TOptional = std::optional<T>;
 
 template <typename T>
 using TArray = std::vector<T>;
@@ -35,7 +39,7 @@ using FString = std::string;
 ////////////////////////////////////////////////////////////
 
 // Simple log for the engine
-// TODO: create a logger
+// TODO: create a logger, disable the log in the Shipping build
 #define NS_LOG(Message, ...) printf(Message "\n", ##__VA_ARGS__)
 
 } // namespace Nonsense

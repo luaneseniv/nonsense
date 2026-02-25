@@ -28,8 +28,8 @@ public:
 
 private:
 
-    void RenderInternal();
-    void TickInternal(float deltaTime);
+    void InternalRender();
+    void InternalTick(float deltaTime);
 
     virtual void Render();
     virtual void Tick(float deltaTime);
@@ -38,6 +38,10 @@ private:
 
     float mTargetFrameRate;
     sf::Clock mTickClock;
+
+    // Asset cleaning cycle
+    float mCleanCycleIterval;
+    sf::Clock mCleanCycleClock;
 
     TSharedPtr<UWorld> mCurrentWorld;
 };

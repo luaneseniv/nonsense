@@ -12,7 +12,7 @@ target_compile_definitions(${GAME_TARGET_NAME} PUBLIC
 )
 
 target_include_directories(${GAME_TARGET_NAME} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
 target_link_libraries(${GAME_TARGET_NAME} PUBLIC ${ENGINE_TARGET_NAME})
@@ -30,7 +30,7 @@ endfunction()
 CopyLibDirToTarget(${GAME_TARGET_NAME} ${ENGINE_TARGET_NAME})
 
 set(CONTENT_FOLDER_NAME content)
-set(CONTENT_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${CONTENT_FOLDER_NAME}")
+set(CONTENT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${CONTENT_FOLDER_NAME})
 
 # Copy content to the built game dir
 add_custom_command(TARGET ${GAME_TARGET_NAME}
@@ -39,4 +39,10 @@ add_custom_command(TARGET ${GAME_TARGET_NAME}
     ${CMAKE_COMMAND} -E copy_directory
     ${CONTENT_SRC_DIR}
     $<TARGET_FILE_DIR:${GAME_TARGET_NAME}>/${CONTENT_FOLDER_NAME}
+)
+
+# Config file
+Configure_file(
+    "config.h.cfg"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/config.h" ESCAPE_QUOTES
 )

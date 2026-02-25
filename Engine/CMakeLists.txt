@@ -15,6 +15,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Object.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Actor.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Actor.cpp
 
+${CMAKE_CURRENT_SOURCE_DIR}/include/framework/AssetManager.h
+${CMAKE_CURRENT_SOURCE_DIR}/src/framework/AssetManager.cpp
+
 ${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Core.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Core.cpp
 
@@ -29,7 +32,7 @@ target_compile_definitions(${ENGINE_TARGET_NAME} PUBLIC
 )
 
 target_include_directories(${ENGINE_TARGET_NAME} PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include
+	"${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
 # SFML Libraries to include
@@ -54,5 +57,5 @@ endfunction()
 
 # copy sfml lib files to the engine
 foreach(libraryItem ${SFML_LIBS})
-CopyLibToTarget(${ENGINE_TARGET_NAME} ${libraryItem})
+	CopyLibToTarget(${ENGINE_TARGET_NAME} ${libraryItem})
 endforeach()

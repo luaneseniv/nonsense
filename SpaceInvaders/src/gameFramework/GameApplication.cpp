@@ -2,7 +2,8 @@
 #include "framework/World.h"
 #include "framework/Actor.h"
 
-#include "framework/Core.h"
+#include "config.h"
+//#include "framework/Core.h"
 
 
 Nonsense::Application* GetApplication()
@@ -16,22 +17,25 @@ namespace Nonsense
 GameApplication::GameApplication()
     : Application{1280, 720, "Space Invaders", sf::Style::None} // frameless, no titlebar
 {
-
-#ifdef SHIPPING_BUILD
-    NS_LOG("Created new game session! Shipping build.");
-#else
-    NS_LOG("Created new game session! Development build.");
-#endif
-
     // TEST: Create new world.
-    TWeakPtr<UWorld> testWorld = LoadWorld<UWorld>();
-    testWorld.lock()->SpawnActor<AActor>();
-    testWorld.lock()->SpawnActor<AActor>().lock()->Destroy();
+    testWorld = LoadWorld<UWorld>();
+    testActor = testWorld.lock()->SpawnActor<AActor>();
+    testActor.lock()->SetTexture(GetResourceDirectory() + "SpaceShips/T_SpaceShip_v1.png");
+    destroyTime = 2.0f;
 
 }
 
 void GameApplication::Tick(float deltaTime)
 {
+    accumulated += deltaTime;
+
+    if(accumulated > destroyTime)
+    {
+        if(!testActor.expired())
+        {
+            testActor.lock()->Destroy();
+        }
+    }
 
 }
 

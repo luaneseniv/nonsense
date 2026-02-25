@@ -1,4 +1,6 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+
 #include "framework/Core.h"
 
 namespace Nonsense
@@ -14,6 +16,7 @@ public:
 
     void InternalBeginPlay();
     void InternalTick(float deltaTime);
+    void Render(sf::RenderWindow& window);
 
     // Template function for creating new AActor from a specific actor type
     template <typename ActorType>

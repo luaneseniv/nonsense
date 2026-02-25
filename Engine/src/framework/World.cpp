@@ -25,13 +25,15 @@ void UWorld::InternalBeginPlay()
 
 void UWorld::InternalTick(float deltaTime)
 {
-    // Adds pending actors to the actor array
-    // This should be happend before the world's Tick()
+    // adds pending actors to the actor array.
+    // this should be happend before the world's Tick()
+    // this is a simple solution, not a good practice for memory management.
+    // TODO: create an actor pool ~50 actors or ajustable pool size
     for (TSharedPtr<AActor> actor : mPendingActors)
     {
         mActors.push_back(actor);
         // Actor BeginPlay
-        actor->BeginPlay();
+        actor->InternalBeginPlay();
     }
     mPendingActors.clear();
 
@@ -44,7 +46,7 @@ void UWorld::InternalTick(float deltaTime)
         }
         else
         {
-            it->get()->Tick(deltaTime);
+            it->get()->InternalTick(deltaTime);
             ++it;
         }
     }
@@ -56,6 +58,14 @@ void UWorld::InternalTick(float deltaTime)
 void UWorld::BeginPlay()
 {
     NS_LOG("World Begin Play!");
+}
+
+void UWorld::Render(sf::RenderWindow& window)
+{
+    for (auto& actor : mActors)
+    {
+        actor->Render(window);
+    }
 }
 
 void UWorld::Tick(float deltaTime)
