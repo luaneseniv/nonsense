@@ -21,6 +21,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/AssetManager.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Core.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Core.cpp
 
+${CMAKE_CURRENT_SOURCE_DIR}/include/framework/MathUtility.h
+${CMAKE_CURRENT_SOURCE_DIR}/src/framework/MathUtility.cpp
+
 ${CMAKE_CURRENT_SOURCE_DIR}/include/EntryPoint.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
 )

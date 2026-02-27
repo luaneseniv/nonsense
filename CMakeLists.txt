@@ -2,10 +2,14 @@
 
 cmake_minimum_required(VERSION 4.1.2) 
 
+set(CMAKE_GENERATOR "Ninja" CACHE INTERNAL "" FORCE)
+# set(CMAKE_GENERATOR "Makefiles" CACHE INTERNAL "" FORCE)
+
 project(Nonsense
 	VERSION 0.1.0
 	LANGUAGES C CXX
 )
+
 
 set(CMAKE_CXX_STANDARD 			14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

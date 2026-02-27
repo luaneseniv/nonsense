@@ -1,11 +1,11 @@
 #pragma once
 #include "string"
 
-std::string GetResourceDirectory()
+std::string GetContentDirectory()
 {
 #ifdef SHIPPING_BUILD
     return "content/";
 #else
-    return "D:/nonsense/SpaceInvaders/content/";
+    return "L:/_Projects/_Eseniv/nonsense/SpaceInvaders/content/";
 #endif
 }

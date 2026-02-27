@@ -3,6 +3,12 @@
 add_executable(${GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/include/gameFramework/GameApplication.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameFramework/GameApplication.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/spaceship/Spaceship.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/Spaceship.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/player/PlayerSpaceship.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
 )
 
 # Defined macros for each build config

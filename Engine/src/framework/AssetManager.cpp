@@ -15,7 +15,7 @@ AssetManager& AssetManager::Get()
     return *mAssetManager;
 }
 
-TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString texturePath)
+TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString& texturePath)
 {
     // we will search the texture
     auto foundTexture = mLoadedTextures.find(texturePath);
@@ -25,7 +25,7 @@ TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString texturePath)
     }
 
     TSharedPtr<sf::Texture> newTexture{ new sf::Texture };
-    if(newTexture->loadFromFile(texturePath))
+    if(newTexture->loadFromFile(mContentSourceDir + texturePath))
     {
         mLoadedTextures.insert({texturePath, newTexture});
         return newTexture;
@@ -36,6 +36,8 @@ TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString texturePath)
 
 void AssetManager::CleanCycle()
 {
+    NS_LOG("Running asset cleaning.");
+    
     // simple asset cleaning method
     // this is not a good solution for the performance
     for (auto it = mLoadedTextures.begin(); it != mLoadedTextures.end();)
@@ -52,7 +54,12 @@ void AssetManager::CleanCycle()
     }
 }
 
-AssetManager::AssetManager()
+void AssetManager::SetContentDirectory(const FString& path)
+{
+    mContentSourceDir = path;
+}
+
+AssetManager::AssetManager() : mContentSourceDir{}
 {
 
 }

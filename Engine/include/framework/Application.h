@@ -11,11 +11,10 @@ class Application
 {
 public:
     Application(unsigned int windowWidth, unsigned int windowHeight,const FString& title, std::uint32_t style);
-    
-    // Moves the window's position to the center of the screen.
-    // By default, the init position (Top-Left corner) of the SF window always stay at the center of the screen.
-    // Maybe SF has ability to do this, but for now let's set it from the Application.
-    void UpdateWindowPosition();
+
+    ~Application();
+
+    void SetTargetFramerate(float targetFramerate);
 
     void Run();
 

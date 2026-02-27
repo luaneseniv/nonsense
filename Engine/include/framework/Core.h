@@ -7,7 +7,6 @@
 #include <vector>
 #include <optional>
 
-
 namespace Nonsense
 {
 ////////////////////////////////////////////////////////////
@@ -36,10 +35,14 @@ using TDict = std::unordered_map<keyType, valueType, hasher>;
 
 using FString = std::string;
 
+
+
 ////////////////////////////////////////////////////////////
 
 // Simple log for the engine
 // TODO: create a logger, disable the log in the Shipping build
 #define NS_LOG(Message, ...) printf(Message "\n", ##__VA_ARGS__)
+
+
 
 } // namespace Nonsense

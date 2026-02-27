@@ -8,17 +8,23 @@ namespace Nonsense
 Application::Application(unsigned int windowWidth, unsigned int windowHeight,const FString& title, std::uint32_t style)
     :   mWindow{sf::VideoMode({windowWidth, windowHeight}), title, style},
         mTargetFrameRate{60.0f},
+        mTickClock{},
         mCurrentWorld{nullptr},
-        mCleanCycleIterval{3.0f},
+        mCleanCycleIterval{10.0f},
         mCleanCycleClock{}
 {
 
 }
 
-// Set game window at the center of the screen
-void Application::UpdateWindowPosition()
+Application::~Application()
 {
-    mWindow.setPosition((sf::Vector2<int>(mWindow.getSize()) - mWindow.getPosition()) / 2);
+
+}
+
+void Application::SetTargetFramerate(float targetFramerate)
+{
+    mTargetFrameRate = targetFramerate;
+    NS_LOG("Max FPS was set to %f.", targetFramerate);
 }
 
 void Application::Run()
@@ -38,7 +44,7 @@ void Application::Run()
     while(mWindow.isOpen())
     {
         // Poll Events
-        while(const std::optional<sf::Event> event = mWindow.pollEvent())
+        while(const TOptional<sf::Event> event = mWindow.pollEvent())
         {
             // Close the window if user presses ESC or Window Close button
             if(event->is<sf::Event::Closed>() ||
@@ -82,10 +88,9 @@ void Application::InternalTick(float deltaTime)
     }
 
     // cleanup unused textures
-    // every 3 seconds
-    if(float timmer = mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleIterval)
+    // runs every 10 seconds
+    if(mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleIterval)
     {
-        NS_LOG("Running asset cleaning.");
         mCleanCycleClock.restart();
         AssetManager::Get().CleanCycle();
     }
@@ -103,7 +108,7 @@ void Application::Render()
 
 void Application::Tick(float deltaTime)
 {
-
+    NS_LOG("App Parent ticking");
 }
 
 } // namespace Nonsense

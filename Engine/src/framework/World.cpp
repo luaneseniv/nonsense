@@ -5,10 +5,10 @@ namespace Nonsense
 {
 
 UWorld::UWorld(Application* owningApp)
-    :   mOwningApp{owningApp},
-        mBeganPlay{false},
-        mActors{},
-        mPendingActors{}
+    :mOwningApp{owningApp},
+    mBeganPlay{false},
+    mActors{},
+    mPendingActors{}
 {}
 
 UWorld::~UWorld()
@@ -37,6 +37,9 @@ void UWorld::InternalTick(float deltaTime)
     }
     mPendingActors.clear();
 
+    // World tick
+    Tick(deltaTime);
+    
     // Actors tick
     for (TArray<TSharedPtr<AActor>>::iterator it = mActors.begin(); it != mActors.end();)
     {
@@ -51,8 +54,6 @@ void UWorld::InternalTick(float deltaTime)
         }
     }
 
-    // World tick
-    Tick(deltaTime);
 }
 
 void UWorld::BeginPlay()
