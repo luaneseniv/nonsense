@@ -9,3 +9,4 @@ std::string GetContentDirectory()
     return "L:/_Projects/_Eseniv/nonsense/SpaceInvaders/content/";
 #endif
 }
+

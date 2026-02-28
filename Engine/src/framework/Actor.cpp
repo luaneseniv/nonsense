@@ -10,9 +10,10 @@ AActor::AActor(UWorld* owningWorld, const FString& texturePath)
     : mOwningWorld{owningWorld},
     mHasBeganPlay{false},
     mSprite{},
-    mTexture{nullptr},
+    mTexture{},
     mPivot{}
 {
+    SetTexture(texturePath);
 }
 
 AActor::~AActor()
@@ -61,12 +62,15 @@ void AActor::SetTexture(const FString& texturePath)
     mSprite->setTextureRect(sf::IntRect{sf::Vector2i{}, {textureWidth, textureHeight}});
 
     // update sprite's origin
-    mPivot = sf::Vector2f(textureWidth * 0.5f, textureHeight * 0.5f);
+    mPivot = {textureWidth * 0.5f, textureHeight * 0.5f};
     mSprite->setOrigin(mPivot);
 }
 
 void AActor::Render(sf::RenderWindow& window)
 {
+    if (IsPendingDestroy())
+        return;
+
     window.draw(mSprite.value());
 }
 

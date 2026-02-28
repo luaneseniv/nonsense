@@ -11,8 +11,17 @@ Application::Application(unsigned int windowWidth, unsigned int windowHeight,con
         mTickClock{},
         mCurrentWorld{nullptr},
         mCleanCycleIterval{10.0f},
-        mCleanCycleClock{}
+        mCleanCycleClock{},
+        // test
+        mFpsText{mFont},
+        testClock{}
 {
+    // init the logger
+#ifdef LOG_FILE_PATH
+    Logger::Get().Init(LOG_FILE_PATH);
+#else
+    Logger::Get().Init("temp.log");
+#endif
 
 }
 
@@ -21,26 +30,38 @@ Application::~Application()
 
 }
 
-void Application::SetTargetFramerate(float targetFramerate)
+void Application::SetTargetFramerate(float newFramerate)
 {
-    mTargetFrameRate = targetFramerate;
-    NS_LOG("Max FPS was set to %f.", targetFramerate);
+    if(newFramerate > 0.0f)
+    {
+        mTargetFrameRate = newFramerate;
+        mWindow.setFramerateLimit(newFramerate);
+    }
+    NS_LOG("Max FPS was set to %f.", mTargetFrameRate);
 }
 
 void Application::Run()
 {
-    // UpdateWindowPosition();
-    
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
     float accumulatedTime = 0.0f;
     
+    //////////// TEST /////////////
+    mFpsText.setCharacterSize(20);
+    mFpsText.setFillColor(sf::Color::White);
+    mFpsText.setPosition({10.f, 10.f});
+    mFrameCount = 0;
+    testClock.reset();
+    static int counter = 0;
+    //////////////////////////////
+
 #ifdef SHIPPING_BUILD
     NS_LOG("Starting the game... Shipping build.");
 #else
     NS_LOG("Starting the game... Development build.");
 #endif
 
+    // game loop
     while(mWindow.isOpen())
     {
         // Poll Events
@@ -50,23 +71,23 @@ void Application::Run()
             if(event->is<sf::Event::Closed>() ||
                 (event->is<sf::Event::KeyPressed>() &&
                     event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape))
-                {
-                    mWindow.close();
-                    NS_LOG("Game Window Closed.");
-                }
+            {
+                mWindow.close();
+                NS_LOG("Game Window has been Closed.");
+            }
         }
 
         // fixed framerate updating
         accumulatedTime += mTickClock.restart().asSeconds();
-        while (accumulatedTime > targetDeltaTime)
+        while (accumulatedTime >= targetDeltaTime)
         {
             accumulatedTime -= targetDeltaTime;
             InternalTick(targetDeltaTime);
-            InternalRender();
         }
+        
+        InternalRender();
     }
 }
-
 
 void Application::InternalRender()
 {
@@ -99,16 +120,39 @@ void Application::InternalTick(float deltaTime)
 
 void Application::Render()
 {
+    
+    //////// TEST ///////////
+    mFrameCount++;
+
+    accumulator += testClock.restart().asSeconds();
+    // Update the FPS display every second
+    if (accumulator >= 1.0f)
+    {
+        NS_LOG("Frame Count %d", mFrameCount);
+        mFPS = mFrameCount / accumulator;
+
+        // Format the FPS value for display
+        std::stringstream ss;
+        ss << std::fixed << std::setprecision(4) << mFPS << " FPS";
+        mFpsText.setString(ss.str());
+        mFrameCount = 0;
+        accumulator = 0.0f;
+    }
+    
+    mWindow.draw(mFpsText);
+    //////// End TEST ////////////////
+
     if(mCurrentWorld)
     {
         mCurrentWorld->Render(mWindow);
     }
 
+
 }
 
 void Application::Tick(float deltaTime)
 {
-    NS_LOG("App Parent ticking");
+
 }
 
 } // namespace Nonsense

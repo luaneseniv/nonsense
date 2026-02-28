@@ -14,9 +14,10 @@ public:
 
     ~Application();
 
-    void SetTargetFramerate(float targetFramerate);
-
+    void SetTargetFramerate(float newFramerate);
     void Run();
+
+    virtual void Tick(float deltaTime);
 
     // Template function for creating new world from a specific world type.
     template <typename WorldType>
@@ -26,12 +27,9 @@ public:
     TSharedPtr<UWorld> GetCurrentWorld() const { return mCurrentWorld; };
 
 private:
-
     void InternalRender();
     void InternalTick(float deltaTime);
-
     virtual void Render();
-    virtual void Tick(float deltaTime);
 
     sf::RenderWindow mWindow;
 
@@ -43,6 +41,15 @@ private:
     sf::Clock mCleanCycleClock;
 
     TSharedPtr<UWorld> mCurrentWorld;
+
+    ///////////// TEST /////////////
+    float accumulator = 0.0f;
+    float mFPS = 0.0f;
+    int mFrameCount = 0;
+    sf::Clock testClock;
+    sf::Text mFpsText;
+    const sf::Font mFont{"JetBrainsMono-Medium.ttf"};
+    // end TEST
 };
 
 

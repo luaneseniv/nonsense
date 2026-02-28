@@ -6,7 +6,7 @@ namespace Nonsense
 class APlayerSpaceship : public ASpaceship
 {
 public:
-    APlayerSpaceship(UWorld* owningWorld, const FString& texturePath = "");
+    APlayerSpaceship(UWorld* owningWorld, const FString& texturePath = "SpaceShips/T_SpaceShip_v1.png");
 
     virtual void Tick(float deltaTime) override;
 

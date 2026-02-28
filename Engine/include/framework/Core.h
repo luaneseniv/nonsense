@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include "framework/Logger.h"
 
 namespace Nonsense
 {
@@ -40,8 +41,15 @@ using FString = std::string;
 ////////////////////////////////////////////////////////////
 
 // Simple log for the engine
-// TODO: create a logger, disable the log in the Shipping build
-#define NS_LOG(Message, ...) printf(Message "\n", ##__VA_ARGS__)
+// Uses Logger to write to a file next to the executable. In non-shipping builds
+// the log will also be printed to stdout.
+// Default NS_LOG uses the Logger singleton
+// #define NS_LOG(Message, ...) printf(Message "\n", ##__VA_ARGS__)
+
+#define NS_LOG(Message, ...) \
+	do { \
+		Nonsense::Logger::Get().Log(Message, ##__VA_ARGS__); \
+	} while(0)
 
 
 

@@ -21,6 +21,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/AssetManager.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Core.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Core.cpp
 
+${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Logger.h
+${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Logger.cpp
+
 ${CMAKE_CURRENT_SOURCE_DIR}/include/framework/MathUtility.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/framework/MathUtility.cpp
 
@@ -32,11 +35,30 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
 target_compile_definitions(${ENGINE_TARGET_NAME} PUBLIC
 	$<$<CONFIG:Debug>:DEVELOPMENT_BUILD>
 	$<$<CONFIG:Release>:SHIPPING_BUILD>
+	LOG_FILE_PATH="${CMAKE_BINARY_DIR}/${GAME_TARGET_NAME}/$<CONFIG>/${LOG_FILE_NAME}"
 )
+
 
 target_include_directories(${ENGINE_TARGET_NAME} PUBLIC
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
+
+set(CMAKE_CXX_STANDARD 			14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS	 	OFF)
+
+# add sfml lib, using version 3.0.2
+include(FetchContent)
+set(SFML_LIB_NAME SFML)
+
+FetchContent_Declare(
+	${SFML_LIB_NAME}
+	GIT_REPOSITORY 	https://github.com/SFML/SFML
+	GIT_TAG 		3.0.2
+	GIT_SHALLOW 	FALSE
+)
+
+FetchContent_MakeAvailable(${SFML_LIB_NAME})
 
 # SFML Libraries to include
 set(SFML_LIBS

@@ -23,7 +23,7 @@ GameApplication::GameApplication()
     // TEST: Create new world.
     testWorld = LoadWorld<UWorld>();
     testActor = testWorld.lock()->SpawnActor<APlayerSpaceship>();
-    testActor.lock()->SetTexture("SpaceShips/T_SpaceShip_v1.png");
+    // testActor.lock()->SetTexture("SpaceShips/T_SpaceShip_v1.png");
     testActor.lock()->SetActorLocation(sf::Vector2f{640.0f, 360.0f});
     // dynamic_cast<ASpaceship*>(testActor.lock().get())->SetVelocity(sf::Vector2f{0.0f, -100.0f});
     testActor.lock()->SetSpeed(200.0f);
@@ -38,7 +38,7 @@ GameApplication::~GameApplication()
 
 void GameApplication::Tick(float deltaTime)
 {
-
+    Application::Tick(deltaTime);
 }
 
 } // namespace Nonsense

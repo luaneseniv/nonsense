@@ -1,5 +1,5 @@
 #include "player/PlayerSpaceship.h"
-
+#include "framework/MathUtility.h"
 
 namespace Nonsense
 {
@@ -12,11 +12,11 @@ APlayerSpaceship::APlayerSpaceship(UWorld* owningWorld, const FString& texturePa
 
 void APlayerSpaceship::Tick(float deltaTime)
 {
-    ASpaceship::Tick(deltaTime);
-
     HandleInput();
     ConsumeInput();
 
+    // Movement updating will be happened in the base class
+    ASpaceship::Tick(deltaTime);
 }
 
 void APlayerSpaceship::HandleInput()
@@ -42,6 +42,8 @@ void APlayerSpaceship::HandleInput()
     {
         mMovementInput.x = 1.0f;
     }
+
+    NormalizeVector(mMovementInput);
 }
 
 void APlayerSpaceship::ConsumeInput()

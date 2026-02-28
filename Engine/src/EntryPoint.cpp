@@ -3,7 +3,7 @@
 
 int main ()
 {
-	Nonsense::Application* app = GetApplication();   
+	Nonsense::Application* app = GetApplication();
     app->Run();
     delete app;
     
