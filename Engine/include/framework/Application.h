@@ -17,18 +17,20 @@ public:
     void SetTargetFramerate(float newFramerate);
     void Run();
 
-    virtual void Tick(float deltaTime);
-
+    
+    sf::Vector2u GetWindowSize() const;
+    
     // Template function for creating new world from a specific world type.
     template <typename WorldType>
     TWeakPtr<WorldType> LoadWorld();
-
+    
     // Return loading world
     TSharedPtr<UWorld> GetCurrentWorld() const { return mCurrentWorld; };
-
-private:
+    
+    private:
     void InternalRender();
     void InternalTick(float deltaTime);
+    virtual void Tick(float deltaTime);
     virtual void Render();
 
     sf::RenderWindow mWindow;
@@ -48,7 +50,7 @@ private:
     int mFrameCount = 0;
     sf::Clock testClock;
     sf::Text mFpsText;
-    const sf::Font mFont{"JetBrainsMono-Medium.ttf"};
+    const sf::Font mFont{"SpaceInvaders/content/fonts/JetBrainsMono-Medium.ttf"};
     // end TEST
 };
 

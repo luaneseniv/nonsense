@@ -43,10 +43,6 @@ target_include_directories(${ENGINE_TARGET_NAME} PUBLIC
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
-set(CMAKE_CXX_STANDARD 			14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS	 	OFF)
-
 # add sfml lib, using version 3.0.2
 include(FetchContent)
 set(SFML_LIB_NAME SFML)

@@ -28,5 +28,9 @@ void ASpaceship::SetSpeed(float newSpeed)
     mSpeed = newSpeed;
 }
 
+void ASpaceship::Attack()
+{
+
+}
 
 } // namespace Nonsense

@@ -10,7 +10,7 @@ Application::Application(unsigned int windowWidth, unsigned int windowHeight,con
         mTargetFrameRate{60.0f},
         mTickClock{},
         mCurrentWorld{nullptr},
-        mCleanCycleIterval{10.0f},
+        mCleanCycleIterval{5.0f},
         mCleanCycleClock{},
         // test
         mFpsText{mFont},
@@ -113,7 +113,12 @@ void Application::InternalTick(float deltaTime)
     if(mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleIterval)
     {
         mCleanCycleClock.restart();
-        AssetManager::Get().CleanCycle();
+        AssetManager::Get().CleanCycle(); // Textures cleaning
+
+        if (mCurrentWorld)
+        {
+            mCurrentWorld->CleanCycle(); // Actors cleaning
+        }
     }
 
 }
@@ -128,7 +133,7 @@ void Application::Render()
     // Update the FPS display every second
     if (accumulator >= 1.0f)
     {
-        NS_LOG("Frame Count %d", mFrameCount);
+        //NS_LOG("Frame Count %d", mFrameCount);
         mFPS = mFrameCount / accumulator;
 
         // Format the FPS value for display
@@ -155,4 +160,8 @@ void Application::Tick(float deltaTime)
 
 }
 
+sf::Vector2u Application::GetWindowSize() const
+{
+    return mWindow.getSize();
+}
 } // namespace Nonsense

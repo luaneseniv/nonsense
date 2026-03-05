@@ -9,6 +9,18 @@ add_executable(${GAME_TARGET_NAME}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/player/PlayerSpaceship.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/AttackComponent.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/AttackComponent.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/LaserComponent.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/LaserComponent.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/projectile/Projectile.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/projectile/Projectile.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/projectile/LaserBeam.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/projectile/LaserBeam.cpp
 )
 
 # Defined macros for each build config

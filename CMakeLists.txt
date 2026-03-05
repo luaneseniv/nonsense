@@ -10,14 +10,16 @@ project(Nonsense
 	LANGUAGES C CXX
 )
 
+set(CMAKE_CXX_STANDARD 			17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS	 	OFF)
+
 set(ENGINE_TARGET_NAME NonsenseEngine)
 set(GAME_TARGET_NAME SpaceInvaders)
 set(LOG_FILE_NAME "${GAME_TARGET_NAME}.log" CACHE STRING "Log filename")
 
 
 # Create separate folders for each build config
-# cmake -DCMAKE_BUILD_TYPE:STRING=<Debug/Release> -B build
-# cmake --build build --target clean
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${GAME_TARGET_NAME}/$<CONFIG>)
 set(LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${GAME_TARGET_NAME}/$<CONFIG>)
 set(ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${GAME_TARGET_NAME}/$<CONFIG>)

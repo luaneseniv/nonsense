@@ -16,6 +16,8 @@ public:
     // Speed
     void SetSpeed(float newSpeed);
     float GetSpeed() const { return mSpeed; }
+
+    virtual void Attack();
     
 private:
     sf::Vector2f mVelocity;

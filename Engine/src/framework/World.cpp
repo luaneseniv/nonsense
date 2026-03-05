@@ -1,5 +1,6 @@
 #include "framework/World.h"
 #include "framework/Actor.h"
+#include "framework/Application.h"
 
 namespace Nonsense
 {
@@ -43,15 +44,8 @@ void UWorld::InternalTick(float deltaTime)
     // Actors tick
     for (TArray<TSharedPtr<AActor>>::iterator it = mActors.begin(); it != mActors.end();)
     {
-        if(it->get()->IsPendingDestroy())
-        {
-            it = mActors.erase(it);
-        }
-        else
-        {
-            it->get()->InternalTick(deltaTime);
-            ++it;
-        }
+        it->get()->InternalTick(deltaTime);
+        ++it;
     }
 
 }
@@ -61,12 +55,35 @@ void UWorld::BeginPlay()
     NS_LOG("World Begin Play!");
 }
 
+void UWorld::CleanCycle()
+{
+    for (TArray<TSharedPtr<AActor>>::iterator it = mActors.begin(); it != mActors.end();)
+    {
+        if(it->get()->IsPendingDestroy())
+        {
+            it = mActors.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
 void UWorld::Render(sf::RenderWindow& window)
 {
     for (auto& actor : mActors)
     {
         actor->Render(window);
     }
+}
+
+sf::Vector2u UWorld::GetWindowSize() const
+{
+    if (!mOwningApp)
+        return sf::Vector2u{};
+
+    return mOwningApp->GetWindowSize();
 }
 
 void UWorld::Tick(float deltaTime)

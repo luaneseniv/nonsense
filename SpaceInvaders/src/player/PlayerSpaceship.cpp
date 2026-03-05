@@ -1,22 +1,26 @@
 #include "player/PlayerSpaceship.h"
 #include "framework/MathUtility.h"
+#include "framework/World.h"
+#include "weapon/LaserComponent.h"
 
 namespace Nonsense
 {
 APlayerSpaceship::APlayerSpaceship(UWorld* owningWorld, const FString& texturePath)
     : ASpaceship{owningWorld, texturePath},
-    mMovementInput{}
+    mMovementInput{},
+    mWeapon{ new ULaserComponent{this, 0.1f} }
 {
-
+    SetActorRotation(-90.0f);
 }
 
 void APlayerSpaceship::Tick(float deltaTime)
 {
-    HandleInput();
-    ConsumeInput();
-
+    
     // Movement updating will be happened in the base class
     ASpaceship::Tick(deltaTime);
+
+    HandleInput();
+    ConsumeInput();
 }
 
 void APlayerSpaceship::HandleInput()
@@ -43,7 +47,15 @@ void APlayerSpaceship::HandleInput()
         mMovementInput.x = 1.0f;
     }
 
+    ClampInput();
     NormalizeVector(mMovementInput);
+
+    ///////////////////////
+    // Attack
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        Attack();
+    }
 }
 
 void APlayerSpaceship::ConsumeInput()
@@ -51,10 +63,38 @@ void APlayerSpaceship::ConsumeInput()
     SetVelocity(mMovementInput * GetSpeed());
 }
 
+void APlayerSpaceship::ClampInput()
+{
+    if (GetActorLocation().y <= 0.0f && mMovementInput.y < 0.0f)
+    {
+        mMovementInput.y = 0.0f;
+    }
+    if (GetActorLocation().y >= GetCurrentWorld()->GetWindowSize().y && mMovementInput.y > 0.0f)
+    {
+        mMovementInput.y = 0.0f;
+    }
+    if (GetActorLocation().x <= 0.0f && mMovementInput.x < 0.0f)
+    {
+        mMovementInput.x = 0.0f;
+    }
+    if (GetActorLocation().x >= GetCurrentWorld()->GetWindowSize().x && mMovementInput.x > 0.0f)
+    {
+        mMovementInput.x = 0.0f;
+    }
+}
+
 void APlayerSpaceship::ResetMovementInput()
 {
     mMovementInput.x = 0.0f;
     mMovementInput.y = 0.0f;
+}
+
+void APlayerSpaceship::Attack()
+{
+    if (mWeapon)
+    {
+        mWeapon->Attack();
+    }
 }
 
 } // namespace Nonsense

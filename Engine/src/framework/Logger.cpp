@@ -15,7 +15,6 @@ Logger::~Logger()
 {
     if (mFile)
     {
-        fprintf(mFile, "\t\t=============== End Log ===============\n");
         fclose(mFile);
         mFile = nullptr;
     }
@@ -36,7 +35,6 @@ void Logger::Init(const std::string& filename)
     if (mFile)
     {
         mInitialized = true;
-        fprintf(mFile, "\t\t=============== Begin Log ===============\n");
     }
 }
 

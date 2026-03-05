@@ -17,10 +17,13 @@ public:
     void InternalBeginPlay();
     void InternalTick(float deltaTime);
     void Render(sf::RenderWindow& window);
+    void CleanCycle();
+
+    sf::Vector2u GetWindowSize() const;
 
     // Template function for creating new AActor from a specific actor type
-    template <typename ActorType>
-    TWeakPtr<ActorType> SpawnActor();
+    template <typename ActorType, typename ...Args>
+    TWeakPtr<ActorType> SpawnActor(Args...);
 
 private:
     void Tick(float deltaTime);
@@ -34,10 +37,10 @@ private:
 
 };
 
-template <typename ActorType>
-TWeakPtr<ActorType> UWorld::SpawnActor()
+template <typename ActorType, typename ...Args>
+TWeakPtr<ActorType> UWorld::SpawnActor(Args... args)
 {
-    TSharedPtr<ActorType> newActor { new ActorType{this} };
+    TSharedPtr<ActorType> newActor { new ActorType{this, args...} };
     mPendingActors.push_back(newActor);
 
     return newActor;
