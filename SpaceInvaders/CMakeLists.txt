@@ -1,32 +1,32 @@
 # CAMKE GAME
 
 add_executable(${GAME_TARGET_NAME}
-	${CMAKE_CURRENT_SOURCE_DIR}/include/gameFramework/GameApplication.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/gameFramework/GameApplication.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/gameFramework/GameApplication.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/gameFramework/GameApplication.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/spaceship/Spaceship.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/Spaceship.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/Spaceship.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/player/PlayerSpaceship.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/AttackComponent.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/AttackComponent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/AttackComponent.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/LaserComponent.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/LaserComponent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/LaserComponent.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/projectile/Projectile.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/projectile/Projectile.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/projectile/Projectile.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/projectile/LaserBeam.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/projectile/LaserBeam.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/projectile/LaserBeam.cpp
 )
 
 # Defined macros for each build config
 target_compile_definitions(${GAME_TARGET_NAME} PUBLIC
-	$<$<CONFIG:Debug>:DEVELOPMENT_BUILD>
-	$<$<CONFIG:Release>:SHIPPING_BUILD>
+    $<$<CONFIG:Debug>:DEVELOPMENT_BUILD>
+    $<$<CONFIG:Release>:SHIPPING_BUILD>
 )
 
 target_include_directories(${GAME_TARGET_NAME} PUBLIC

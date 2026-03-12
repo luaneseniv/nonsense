@@ -7,6 +7,7 @@ class ASpaceship : public AActor
 {
 public:
     ASpaceship (UWorld* owningWorld, const FString& texturePath = "");
+    virtual ~ASpaceship();
     virtual void Tick(float deltaTime) override;
 
     // Velocity

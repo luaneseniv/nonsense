@@ -3,14 +3,21 @@
 #include "framework/World.h"
 #include "weapon/LaserComponent.h"
 
+
 namespace Nonsense
 {
 APlayerSpaceship::APlayerSpaceship(UWorld* owningWorld, const FString& texturePath)
     : ASpaceship{owningWorld, texturePath},
     mMovementInput{},
-    mWeapon{ new ULaserComponent{this, 0.1f} }
+    // mWeapon{ new ULaserComponent{this, 0.15f} }
+    mWeapon{ new ULaserComponent{this, 0.15f} }
 {
     SetActorRotation(-90.0f);
+}
+
+APlayerSpaceship::~APlayerSpaceship()
+{
+    delete mWeapon;
 }
 
 void APlayerSpaceship::Tick(float deltaTime)
@@ -48,7 +55,7 @@ void APlayerSpaceship::HandleInput()
     }
 
     ClampInput();
-    NormalizeVector(mMovementInput);
+    NormalizeVector<sf::Vector2f>(mMovementInput);
 
     ///////////////////////
     // Attack

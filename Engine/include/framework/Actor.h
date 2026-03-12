@@ -32,7 +32,7 @@ public:
 
     // Actor's transform Get-Set
     sf::Vector2f GetActorLocation() const;
-    float GetActorRotation() const;
+    float GetActorRotation() const; // return rotation in degrees
     sf::Vector2f GetActorForwardVector() const;
     sf::Vector2f GetActorRightVector() const;
     void SetActorLocation(const sf::Vector2f& newLocation);
@@ -41,6 +41,7 @@ public:
     void AddActorRotationOffset(float deltaRotation);
 
     sf::FloatRect GetActorBound() const;
+    sf::Vector2f GetActorPivot() const;
     bool IsActorOutOfWindow() const;
 
 private:
@@ -51,7 +52,6 @@ private:
     // store the sprite as std::optional and init it from AActor::SetTexture()
     TSharedPtr<sf::Texture> mTexture;
     TOptional<sf::Sprite> mSprite;
-    sf::Vector2f mPivot;
 };
 
 

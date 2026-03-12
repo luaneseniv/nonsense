@@ -6,20 +6,6 @@
 namespace Nonsense
 {
 
-Logger::Logger()
-    : mFile(nullptr), mInitialized(false)
-{
-}
-
-Logger::~Logger()
-{
-    if (mFile)
-    {
-        fclose(mFile);
-        mFile = nullptr;
-    }
-}
-
 Logger& Logger::Get()
 {
     static Logger instance;
@@ -67,6 +53,22 @@ void Logger::Log(const char* format, ...)
     fflush(stdout);
 
     va_end(args);
+}
+
+Logger::Logger()
+    : mFile{nullptr},
+    mInitialized{false}
+{
+
+}
+
+Logger::~Logger()
+{
+    if (mFile)
+    {
+        fclose(mFile);
+        mFile = nullptr;
+    }
 }
 
 } // namespace Nonsense

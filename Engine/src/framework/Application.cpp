@@ -1,6 +1,7 @@
 #include "framework/Application.h"
 #include "framework/World.h"
 #include "framework/AssetManager.h"
+#include "framework/PhysicsSystem.h"
 
 namespace Nonsense
 {
@@ -102,11 +103,15 @@ void Application::InternalTick(float deltaTime)
 {
     Tick(deltaTime);
 
+    // World Tick
     if (mCurrentWorld)
     {
         mCurrentWorld->InternalBeginPlay();
         mCurrentWorld->InternalTick(deltaTime);
     }
+
+    // Physics tick
+    PhysicsSystem::Get().Tick(deltaTime);
 
     // cleanup unused textures
     // runs every 10 seconds

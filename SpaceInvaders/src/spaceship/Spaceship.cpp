@@ -11,6 +11,11 @@ ASpaceship::ASpaceship(UWorld *owningWorld, const FString& texturePath)
 
 }
 
+ASpaceship::~ASpaceship()
+{
+    
+}
+
 void ASpaceship::Tick(float deltaTime)
 {
     AActor::Tick(deltaTime);

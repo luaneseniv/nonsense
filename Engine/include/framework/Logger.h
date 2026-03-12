@@ -11,8 +11,12 @@ class Logger
 public:
     static Logger& Get();
 
-    void Init(const std::string& filename);
+    Logger(const Logger&) = delete;
+    Logger& operator=(const Logger&) = delete;
+    Logger(Logger&&) = delete;
+    Logger& operator=(Logger&&) = delete;
 
+    void Init(const std::string& filename);
     void Log(const char* format, ...);
 
 private:

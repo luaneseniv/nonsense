@@ -11,8 +11,7 @@ AActor::AActor(UWorld* owningWorld, const FString& texturePath)
     : mOwningWorld{owningWorld},
     mHasBeganPlay{false},
     mSprite{},
-    mTexture{},
-    mPivot{}
+    mTexture{}
 {
     SetTexture(texturePath);
 }
@@ -52,7 +51,6 @@ void AActor::Tick(float deltaTime)
 
 }
 
-
 void AActor::SetTexture(const FString& texturePath)
 {
     // load the texture
@@ -71,8 +69,8 @@ void AActor::SetTexture(const FString& texturePath)
     if (!mSprite) return;
     
     // update sprite's origin
-    mPivot = {textureWidth * 0.5f, textureHeight * 0.5f};
-    mSprite->setOrigin(mPivot);
+    sf::Vector2f pivot = {textureWidth * 0.5f, textureHeight * 0.5f};
+    mSprite->setOrigin(pivot);
 }
 
 void AActor::Render(sf::RenderWindow& window)
@@ -115,12 +113,12 @@ float AActor::GetActorRotation() const
 
 sf::Vector2f AActor::GetActorForwardVector() const
 {
-    return RotationToVector(GetActorRotation());
+    return RotationToVector<sf::Vector2f>(GetActorRotation());
 }
 
 sf::Vector2f AActor::GetActorRightVector() const
 {
-    return RotationToVector(GetActorRotation() + 90.0f);
+    return RotationToVector<sf::Vector2f>(GetActorRotation() + 90.0f);
 }
 
 sf::FloatRect Nonsense::AActor::GetActorBound() const
@@ -129,6 +127,14 @@ sf::FloatRect Nonsense::AActor::GetActorBound() const
         return sf::FloatRect{};
     
     return mSprite->getGlobalBounds();
+}
+
+sf::Vector2f AActor::GetActorPivot() const
+{
+    if (!mSprite)
+        return sf::Vector2f{};
+    
+    return mSprite->getOrigin();
 }
 
 bool AActor::IsActorOutOfWindow() const

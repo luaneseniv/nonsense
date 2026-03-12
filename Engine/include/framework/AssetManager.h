@@ -10,15 +10,20 @@ class AssetManager
 {
 public:
     static AssetManager& Get();
+    
+    AssetManager(const AssetManager&) = delete;
+    AssetManager& operator=(const AssetManager&) = delete;
+    AssetManager(AssetManager&&) = delete;
+    AssetManager& operator=(AssetManager&&) = delete;
+
     TSharedPtr<sf::Texture> LoadTexture(const FString& texturePath);
     void CleanCycle();
     void SetContentDirectory(const FString& path);
 
-protected:
-    AssetManager();
 
 private:
-    static TUniquePtr<AssetManager> mAssetManager;
+    AssetManager();
+    ~AssetManager();
     TDict<FString, TSharedPtr<sf::Texture>> mLoadedTextures;
     FString mContentSourceDir;
     

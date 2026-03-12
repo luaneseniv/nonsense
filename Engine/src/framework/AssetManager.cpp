@@ -3,16 +3,11 @@
 namespace Nonsense
 {
 
-TUniquePtr<AssetManager> AssetManager::mAssetManager{nullptr};
-
 AssetManager& AssetManager::Get()
 {
-    if(!mAssetManager)
-    {
-        mAssetManager = TUniquePtr<AssetManager>{new AssetManager};
-    }
+    static AssetManager instance;
 
-    return *mAssetManager;
+    return instance;
 }
 
 TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString& texturePath)
@@ -60,6 +55,11 @@ void AssetManager::SetContentDirectory(const FString& path)
 }
 
 AssetManager::AssetManager() : mContentSourceDir{}
+{
+
+}
+
+AssetManager::~AssetManager()
 {
 
 }

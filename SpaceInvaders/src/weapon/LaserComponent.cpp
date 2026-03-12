@@ -27,7 +27,7 @@ bool ULaserComponent::IsOnCooldown() const
 void ULaserComponent::AttackImpl()
 {
     mCooldownClock.restart();
-    TWeakPtr<AProjectile> laserBeam = GetOwner()->GetCurrentWorld()->SpawnActor<ALaserBeam>(GetOwner());
+    TWeakPtr<ALaserBeam> laserBeam = GetOwner()->GetCurrentWorld()->SpawnActor<ALaserBeam>(GetOwner());
     laserBeam.lock()->SetActorLocation(GetOwner()->GetActorLocation());
 }
 
