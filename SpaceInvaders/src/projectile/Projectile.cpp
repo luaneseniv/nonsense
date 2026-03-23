@@ -21,6 +21,12 @@ void AProjectile::Tick(float deltaTime)
 
 }
 
+void AProjectile::BeginPlay()
+{
+    AActor::BeginPlay();
+    SetEnablePhysics(true, true);
+}
+
 void AProjectile::Move(float deltaTime)
 {
     AddActorLocationOffset(GetActorForwardVector() * mSpeed * deltaTime);

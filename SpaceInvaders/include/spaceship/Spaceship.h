@@ -9,6 +9,7 @@ public:
     ASpaceship (UWorld* owningWorld, const FString& texturePath = "");
     virtual ~ASpaceship();
     virtual void Tick(float deltaTime) override;
+    virtual void BeginPlay() override;
 
     // Velocity
     void SetVelocity(const sf::Vector2f& newVelocity);

@@ -11,6 +11,8 @@ class AProjectile : public AActor
 public:
     AProjectile(UWorld* owingWorld, AActor* owner, const FString& texturePath = "", float speed = 100.0f, float damage = 1.0f);
     virtual void Tick(float deltaTime) override;
+    virtual void BeginPlay() override;
+
     void SetSpeed(float newSpeed) { mSpeed = newSpeed; }
     float GetSpeed() const { return mSpeed; }
     void SetDamage(float newDamage) { mDamage = newDamage; }

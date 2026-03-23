@@ -1,6 +1,13 @@
 #pragma once
 #include <box2d/id.h>
+#include <box2d/types.h>
+
 #include "framework/Core.h"
+
+//TEST
+#include <SFML/Graphics/RenderWindow.hpp>
+
+struct b2SensorEvents;
 
 namespace Nonsense
 {
@@ -17,8 +24,17 @@ public:
     
     void Tick(float deltaTime);
     b2BodyId AddListener(AActor* listener, bool isBullet);
+    void RemoveListener(b2BodyId& listenerBody);
+    void OnBeginOverlapEvents(const b2SensorEvents& sensorEvents);
+    void OnEndOverlapEvents(const b2SensorEvents& sensorEvents);
 
-    float GetPhysicsScale() { return mPhysicsScale; }
+    float GetPhysicsScale() const { return mPhysicsScale; }
+    b2WorldId GetPhysicsWorld() const { return mPhysicsWorldId; }
+
+    // Temporary Functions
+    void InitDebugDrawer(sf::RenderWindow& window);
+    static void DrawDebugCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
+    void DrawDebug();
 
 
 private:
@@ -29,6 +45,9 @@ private:
     b2WorldId mPhysicsWorldId;
     float mPhysicsScale;
     int mSubSteps;
+
+    // Temporary for Debugging
+    b2DebugDraw mDebugDraw;
 
 };
 

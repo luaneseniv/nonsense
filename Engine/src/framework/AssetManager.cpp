@@ -12,13 +12,14 @@ AssetManager& AssetManager::Get()
 
 TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString& texturePath)
 {
-    // we will search the texture
+    // Checks if the texture was loaded
     auto foundTexture = mLoadedTextures.find(texturePath);
     if(foundTexture != mLoadedTextures.end())
     {
         return foundTexture->second;
     }
 
+    // Creates new texture and adds it to the pool
     TSharedPtr<sf::Texture> newTexture{ new sf::Texture };
     if(newTexture->loadFromFile(mContentSourceDir + texturePath))
     {
@@ -27,6 +28,17 @@ TSharedPtr<sf::Texture> AssetManager::LoadTexture(const FString& texturePath)
     }
 
     return TSharedPtr<sf::Texture>{nullptr};
+}
+
+TSharedPtr<sf::Texture> AssetManager::GetPlaceHolderTexture() const
+{
+    if (!mPlaceHolderTexture)
+    {
+        sf::Image img(sf::Vector2u{16, 16}, sf::Color::White);
+        mPlaceHolderTexture = MakeSharePtr<sf::Texture>(img);
+    }
+
+    return mPlaceHolderTexture;
 }
 
 void AssetManager::CleanCycle()

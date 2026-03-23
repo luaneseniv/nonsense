@@ -10,14 +10,13 @@ APlayerSpaceship::APlayerSpaceship(UWorld* owningWorld, const FString& texturePa
     : ASpaceship{owningWorld, texturePath},
     mMovementInput{},
     // mWeapon{ new ULaserComponent{this, 0.15f} }
-    mWeapon{ new ULaserComponent{this, 0.15f} }
+    mWeapon{ MakeUniquePtr<ULaserComponent>(this, 0.15f) }
 {
-    SetActorRotation(-90.0f);
+
 }
 
 APlayerSpaceship::~APlayerSpaceship()
 {
-    delete mWeapon;
 }
 
 void APlayerSpaceship::Tick(float deltaTime)

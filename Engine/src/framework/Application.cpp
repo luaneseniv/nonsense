@@ -43,6 +43,10 @@ void Application::SetTargetFramerate(float newFramerate)
 
 void Application::Run()
 {
+    // Debug: initialize the shape drawer
+    PhysicsSystem::Get().InitDebugDrawer(mWindow);
+    // end Debug
+
     mTickClock.restart();
     float targetDeltaTime = 1.0f / mTargetFrameRate;
     float accumulatedTime = 0.0f;
@@ -53,7 +57,6 @@ void Application::Run()
     mFpsText.setPosition({10.f, 10.f});
     mFrameCount = 0;
     testClock.reset();
-    static int counter = 0;
     //////////////////////////////
 
 #ifdef SHIPPING_BUILD
@@ -130,7 +133,6 @@ void Application::InternalTick(float deltaTime)
 
 void Application::Render()
 {
-    
     //////// TEST ///////////
     mFrameCount++;
 
@@ -156,6 +158,10 @@ void Application::Render()
     {
         mCurrentWorld->Render(mWindow);
     }
+
+    // Debug: Draw debug shapes
+    PhysicsSystem::Get().DrawDebug();
+    // end debug
 
 
 }

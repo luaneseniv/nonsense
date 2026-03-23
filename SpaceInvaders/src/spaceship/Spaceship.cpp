@@ -8,7 +8,7 @@ ASpaceship::ASpaceship(UWorld *owningWorld, const FString& texturePath)
     mVelocity{},
     mSpeed{200.0f}
 {
-
+    
 }
 
 ASpaceship::~ASpaceship()
@@ -21,6 +21,12 @@ void ASpaceship::Tick(float deltaTime)
     AActor::Tick(deltaTime);
 
     AddActorLocationOffset(GetVelocity() * deltaTime);
+}
+
+void ASpaceship::BeginPlay()
+{
+    AActor::BeginPlay();
+    SetEnablePhysics(true);
 }
 
 void ASpaceship::SetVelocity(const sf::Vector2f& newVelocity)

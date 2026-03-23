@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <box2d/id.h>
 
 #include "framework/Core.h"
 #include "framework/Object.h"
@@ -42,16 +43,31 @@ public:
 
     sf::FloatRect GetActorBound() const;
     sf::Vector2f GetActorPivot() const;
+    float GetActorRadius() const { return GetActorBound().size.x * 0.25f; }
     bool IsActorOutOfWindow() const;
 
+    void SetEnablePhysics(bool enable, bool isBullet = false);
+
+    virtual void OnActorBeginOverlap(AActor* other);
+    virtual void OnActorEndOverlap(AActor* other);
+
 private:
+    void UpdateActorBound();
+    void InitializePhysics(bool isBullet);
+    void DeinitializePhysics();
+    void UpdatePhysicsBodyTransform();
+
     UWorld* mOwningWorld;
-    bool mHasBeganPlay;
-    
-    // from SFML 3 sf::Sprite doen't have default constructure
-    // store the sprite as std::optional and init it from AActor::SetTexture()
+    b2BodyId mPhysicsBody;
+
     TSharedPtr<sf::Texture> mTexture;
-    TOptional<sf::Sprite> mSprite;
+    sf::Sprite mSprite;
+    
+    TArray<b2ShapeId> mShapeIds;
+
+    bool mHasBeganPlay;
+    bool mPhysicsEnabled;
+
 };
 
 

@@ -21,7 +21,7 @@ private:
 
     sf::Vector2f mMovementInput;
 
-    UAttackComponent* mWeapon;
+    TUniquePtr<UAttackComponent> mWeapon;
 
 };
 

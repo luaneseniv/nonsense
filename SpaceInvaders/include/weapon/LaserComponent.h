@@ -8,7 +8,7 @@ namespace Nonsense
 class ULaserComponent : public UAttackComponent
 {
 public:
-    ULaserComponent(AActor* owner, float attackRate = 1.0f );
+    ULaserComponent(AActor* owner, float attackRate = 0.1f );
     virtual bool CanAttack() const override;
     virtual bool IsOnCooldown() const override;
 
