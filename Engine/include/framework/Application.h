@@ -11,28 +11,21 @@ class Application
 {
 public:
     Application(unsigned int windowWidth, unsigned int windowHeight,const FString& title, std::uint32_t style);
-
     ~Application();
-
-    void SetTargetFramerate(float newFramerate);
     void Run();
 
-    
-    sf::Vector2u GetWindowSize() const;
-    
     // Template function for creating new world from a specific world type.
     template <typename WorldType>
     TWeakPtr<WorldType> LoadWorld();
     
-    // Return loading world
-    TSharedPtr<UWorld> GetCurrentWorld() const { return mCurrentWorld; };
     
-    private:
+private:
     void InternalRender();
     void InternalTick(float deltaTime);
     virtual void Tick(float deltaTime);
     virtual void Render();
 
+private:
     sf::RenderWindow mWindow;
 
     float mTargetFrameRate;
@@ -44,14 +37,22 @@ public:
 
     TSharedPtr<UWorld> mCurrentWorld;
 
-    ///////////// TEST /////////////
+#pragma region test
+private:
     float accumulator = 0.0f;
     float mFPS = 0.0f;
     int mFrameCount = 0;
     sf::Clock testClock;
     sf::Text mFpsText;
     const sf::Font mFont{"SpaceInvaders/content/fonts/JetBrainsMono-Medium.ttf"};
-    // end TEST
+#pragma endregion
+
+public: // getters setters
+    sf::Vector2u GetWindowSize() const;
+    TSharedPtr<UWorld> GetCurrentWorld() const { return mCurrentWorld; };
+
+    void SetTargetFramerate(float newFramerate);
+
 };
 
 

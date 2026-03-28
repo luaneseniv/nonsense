@@ -10,8 +10,9 @@ public:
     UObject();
     virtual ~UObject();
 
-    void Destroy();
+    virtual void Destroy();
     bool IsPendingDestroy() const { return mIsPedingDestroy; }
+
 private:
     bool mIsPedingDestroy;
 

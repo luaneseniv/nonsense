@@ -23,15 +23,14 @@ public:
     PhysicsSystem& operator=(PhysicsSystem&&) = delete;
     
     void Tick(float deltaTime);
+
     b2BodyId AddListener(AActor* listener, bool isBullet);
     void RemoveListener(b2BodyId& listenerBody);
+
     void OnBeginOverlapEvents(const b2SensorEvents& sensorEvents);
     void OnEndOverlapEvents(const b2SensorEvents& sensorEvents);
 
-    float GetPhysicsScale() const { return mPhysicsScale; }
-    b2WorldId GetPhysicsWorld() const { return mPhysicsWorldId; }
-
-    // Temporary Functions
+public:   // Temporary functions for debugging
     void InitDebugDrawer(sf::RenderWindow& window);
     static void DrawDebugCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
     void DrawDebug();
@@ -40,14 +39,23 @@ public:
 private:
     PhysicsSystem();
     ~PhysicsSystem();
-    void CreateWorld();
 
+    void CreateWorld();
+    void ProcessPendingRemoveListeners();
+
+private:
+    TArray<b2BodyId> mPendingRemoveListeners;
     b2WorldId mPhysicsWorldId;
     float mPhysicsScale;
     int mSubSteps;
+    
 
-    // Temporary for Debugging
+private: // Temporary for Debugging
     b2DebugDraw mDebugDraw;
+
+public: // Getters
+    float GetPhysicsScale() const { return mPhysicsScale; }
+    b2WorldId GetPhysicsWorld() const { return mPhysicsWorldId; }
 
 };
 

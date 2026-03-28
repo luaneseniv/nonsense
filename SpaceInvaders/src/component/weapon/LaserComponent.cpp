@@ -1,4 +1,4 @@
-#include "weapon/LaserComponent.h"
+#include "component/weapon/LaserComponent.h"
 #include "framework/Core.h"
 #include "projectile/LaserBeam.h"
 #include "framework/World.h"
@@ -7,7 +7,7 @@ namespace Nonsense
 {
 
 ULaserComponent::ULaserComponent(AActor *owner, float attackRate)
-    : UAttackComponent{owner},
+    : UWeaponComponent{owner},
     mCooldownClock{},
     mAttackRate{attackRate}
 {
@@ -29,6 +29,7 @@ void ULaserComponent::AttackImpl()
     mCooldownClock.restart();
     TWeakPtr<ALaserBeam> laserBeam = GetOwner()->GetCurrentWorld()->SpawnActor<ALaserBeam>(GetOwner());
     laserBeam.lock()->SetActorLocation(GetOwner()->GetActorLocation());
+    laserBeam.lock()->SetActorRotation(GetOwner()->GetActorRotation());
 }
 
 } // namespace Nonsense

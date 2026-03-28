@@ -23,6 +23,7 @@ private:
     Logger();
     ~Logger();
 
+private:
     FILE* mFile;
     std::mutex mMutex;
     bool mInitialized;

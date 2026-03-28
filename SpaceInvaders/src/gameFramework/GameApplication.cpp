@@ -18,7 +18,7 @@ namespace Nonsense
 GameApplication::GameApplication()
     : Application{1280, 720, "Space Invaders", sf::Style::Titlebar | sf::Style::Close} // sf::Style::None : frameless, no titlebar
 {
-    SetTargetFramerate(30.0f);
+    SetTargetFramerate(60.0f);
     AssetManager::Get().SetContentDirectory(GetContentDirectory());
     // TEST: Create new world.
     testWorld = LoadWorld<UWorld>();

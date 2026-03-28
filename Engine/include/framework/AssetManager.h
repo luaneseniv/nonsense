@@ -17,18 +17,22 @@ public:
     AssetManager& operator=(AssetManager&&) = delete;
 
     TSharedPtr<sf::Texture> LoadTexture(const FString& texturePath);
-    TSharedPtr<sf::Texture> GetPlaceHolderTexture() const;
 
     void CleanCycle();
-    void SetContentDirectory(const FString& path);
-
 
 private:
     AssetManager();
     ~AssetManager();
+
+private:
     TDict<FString, TSharedPtr<sf::Texture>> mLoadedTextures;
     FString mContentSourceDir;
     mutable TSharedPtr<sf::Texture> mPlaceHolderTexture;
+
+public: // getters setters
+    TSharedPtr<sf::Texture> GetPlaceHolderTexture() const;
+
+    void SetContentDirectory(const FString& path);
     
 };
 

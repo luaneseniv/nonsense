@@ -11,6 +11,7 @@ public:
     GameApplication();
     ~GameApplication();
 
+protected:
     virtual void Tick(float deltaTime) override;
     
 

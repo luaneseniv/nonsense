@@ -3,14 +3,16 @@
 
 namespace Nonsense
 {
-class UAttackComponent;
+class UWeaponComponent;
 
 class APlayerSpaceship : public ASpaceship
 {
 public:
     APlayerSpaceship(UWorld* owningWorld, const FString& texturePath = "SpaceShips/T_SpaceShip_v1.png");
     virtual ~APlayerSpaceship();
+
     virtual void Tick(float deltaTime) override;
+
     virtual void Attack() override;
 
 private:
@@ -19,9 +21,9 @@ private:
     void ClampInput();
     void ResetMovementInput();
 
+private:
     sf::Vector2f mMovementInput;
-
-    TUniquePtr<UAttackComponent> mWeapon;
+    TUniquePtr<UWeaponComponent> mWeaponComponent;
 
 };
 

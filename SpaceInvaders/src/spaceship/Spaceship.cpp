@@ -8,7 +8,7 @@ ASpaceship::ASpaceship(UWorld *owningWorld, const FString& texturePath)
     mVelocity{},
     mSpeed{200.0f}
 {
-    
+    SetActorRotation(-90.0f);
 }
 
 ASpaceship::~ASpaceship()

@@ -9,7 +9,6 @@
 #include "SFML/Graphics.hpp"
 
 
-
 namespace Nonsense
 {
 
@@ -21,6 +20,7 @@ PhysicsSystem& PhysicsSystem::Get()
 
 void PhysicsSystem::Tick(float deltaTime)
 {
+    ProcessPendingRemoveListeners();
     b2World_Step(mPhysicsWorldId, deltaTime, mSubSteps);
 
     b2SensorEvents sensorEvents = b2World_GetSensorEvents(mPhysicsWorldId);
@@ -68,8 +68,11 @@ b2BodyId PhysicsSystem::AddListener(AActor *listener, bool isBullet)
 
 void PhysicsSystem::RemoveListener(b2BodyId& listenerBody)
 {
-    b2DestroyBody(listenerBody);
-    listenerBody = b2_nullBodyId;
+    if (b2Body_IsValid(listenerBody))
+    {
+        mPendingRemoveListeners.push_back(listenerBody);
+        listenerBody = b2_nullBodyId;
+    }
 }
 
 void PhysicsSystem::OnBeginOverlapEvents(const b2SensorEvents& sensorEvents)
@@ -126,6 +129,7 @@ PhysicsSystem::PhysicsSystem()
     : mPhysicsWorldId{b2_nullWorldId},
       mPhysicsScale{0.01f}, // converts m to cm
       mSubSteps{4},         // initial sub-step = 4 regarding the documentation
+      mPendingRemoveListeners{},
       mDebugDraw{}
 {
     CreateWorld();
@@ -154,6 +158,20 @@ void PhysicsSystem::CreateWorld()
 
 }
 
+void PhysicsSystem::ProcessPendingRemoveListeners()
+{
+    if (mPendingRemoveListeners.size() == 0)
+        return;
+
+    for (auto& body : mPendingRemoveListeners)
+    {
+        b2DestroyBody(body);
+    }
+
+    mPendingRemoveListeners.clear();
+}
+
+#pragma region Debug
 void PhysicsSystem::InitDebugDrawer(sf::RenderWindow &window)
 {
     mDebugDraw = b2DefaultDebugDraw();
@@ -183,6 +201,6 @@ void PhysicsSystem::DrawDebug()
 {
     b2World_Draw(mPhysicsWorldId, &mDebugDraw);
 }
-
+#pragma endregion
 
 } // namespace Nonsense

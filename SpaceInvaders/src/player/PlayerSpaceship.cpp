@@ -1,7 +1,7 @@
 #include "player/PlayerSpaceship.h"
 #include "framework/MathUtility.h"
 #include "framework/World.h"
-#include "weapon/LaserComponent.h"
+#include "component/weapon/LaserComponent.h"
 
 
 namespace Nonsense
@@ -10,13 +10,14 @@ APlayerSpaceship::APlayerSpaceship(UWorld* owningWorld, const FString& texturePa
     : ASpaceship{owningWorld, texturePath},
     mMovementInput{},
     // mWeapon{ new ULaserComponent{this, 0.15f} }
-    mWeapon{ MakeUniquePtr<ULaserComponent>(this, 0.15f) }
+    mWeaponComponent{ MakeUniquePtr<ULaserComponent>(this, 0.15f) }
 {
 
 }
 
 APlayerSpaceship::~APlayerSpaceship()
 {
+
 }
 
 void APlayerSpaceship::Tick(float deltaTime)
@@ -97,9 +98,9 @@ void APlayerSpaceship::ResetMovementInput()
 
 void APlayerSpaceship::Attack()
 {
-    if (mWeapon)
+    if (mWeaponComponent)
     {
-        mWeapon->Attack();
+        mWeaponComponent->Attack();
     }
 }
 

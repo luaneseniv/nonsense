@@ -2,9 +2,9 @@
 
 #include "framework/Actor.h"
 #include "framework/Core.h"
-#include "framework/AssetManager.h"
 #include "framework/MathUtility.h"
 #include "framework/World.h"
+#include "framework/AssetManager.h"
 #include "framework/PhysicsSystem.h"
 
 
@@ -21,12 +21,18 @@ AActor::AActor(UWorld* owningWorld, const FString& texturePath)
     mShapeIds{}
 {
     SetTexture(texturePath);
-    SetActorRotation(-90.0f);
 }
 
 AActor::~AActor()
 {
+    
+}
+
+void AActor::Destroy()
+{
     SetEnablePhysics(false);
+
+    UObject::Destroy();
 }
 
 void AActor::InternalBeginPlay()
@@ -120,6 +126,97 @@ void AActor::Render(sf::RenderWindow& window)
 // end debug
 }
 
+bool AActor::IsActorOutOfWindow() const
+{
+    float windowWidth = GetCurrentWorld()->GetWindowSize().x;
+    float windowHeight = GetCurrentWorld()->GetWindowSize().y;
+
+    float boundWidth = GetActorBound().size.x;
+    float boundHeight = GetActorBound().size.y;
+
+    if (GetActorLocation().x < -boundWidth)
+    {
+        return true;
+    }
+
+    if (GetActorLocation().x > windowWidth + boundWidth)
+    {
+        return true;
+    }
+
+    if (GetActorLocation().y < - boundHeight)
+    {
+        return true;
+    }
+
+    if (GetActorLocation().y > windowHeight + boundHeight)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+#pragma region PHYSICS
+void AActor::SetEnablePhysics(bool enable, bool isBullet)
+{
+    mPhysicsEnabled = enable;
+
+    if (mPhysicsEnabled)
+    {
+        InitializePhysics(isBullet);
+    }
+    else
+    {
+        DeinitializePhysics();
+    }
+
+}
+
+void AActor::InitializePhysics(bool isBullet)
+{
+    if (B2_IS_NULL(mPhysicsBody))
+    {
+        mPhysicsBody = PhysicsSystem::Get().AddListener(this, isBullet);
+    }
+}
+
+void AActor::DeinitializePhysics()
+{
+    if (B2_IS_NON_NULL(mPhysicsBody))
+    {
+        PhysicsSystem::Get().RemoveListener(mPhysicsBody);
+    }
+}
+
+void AActor::UpdatePhysicsBodyTransform()
+{
+    if (b2Body_IsValid(mPhysicsBody))
+    {
+        b2Vec2 position = ToB2Vector2(GetActorLocation());
+        ScaleVector(position, PhysicsSystem::Get().GetPhysicsScale());
+    
+        b2Rot rotation = b2MakeRot(Deg2Rad(GetActorRotation()));
+
+        b2Body_SetTransform(mPhysicsBody, position, rotation);
+
+        b2Vec2 bodyPos = b2Body_GetPosition(mPhysicsBody);
+    }
+
+}
+#pragma endregion
+
+void AActor::OnActorBeginOverlap(AActor *other)
+{
+    NS_LOG("overlapped");
+}
+
+void AActor::OnActorEndOverlap(AActor *other)
+{
+    NS_LOG("End overlapped");
+}
+
+#pragma region GET-SET
 void AActor::SetActorLocation(const sf::Vector2f& newLocation)
 {
         mSprite.setPosition(newLocation);
@@ -172,98 +269,7 @@ sf::Vector2f AActor::GetActorPivot() const
 {
     return mSprite.getOrigin();
 }
-
-bool AActor::IsActorOutOfWindow() const
-{
-    float windowWidth = GetCurrentWorld()->GetWindowSize().x;
-    float windowHeight = GetCurrentWorld()->GetWindowSize().y;
-
-    float boundWidth = GetActorBound().size.x;
-    float boundHeight = GetActorBound().size.y;
-
-    if (GetActorLocation().x < -boundWidth)
-    {
-        return true;
-    }
-
-    if (GetActorLocation().x > windowWidth + boundWidth)
-    {
-        return true;
-    }
-
-    if (GetActorLocation().y < - boundHeight)
-    {
-        return true;
-    }
-
-    if (GetActorLocation().y > windowHeight + boundHeight)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-void AActor::SetEnablePhysics(bool enable, bool isBullet)
-{
-    mPhysicsEnabled = enable;
-
-    if (mPhysicsEnabled)
-    {
-        InitializePhysics(isBullet);
-    }
-    else
-    {
-        DeinitializePhysics();
-    }
-
-}
-
-void AActor::OnActorBeginOverlap(AActor *other)
-{
-    NS_LOG("overlapped");
-}
-
-void AActor::OnActorEndOverlap(AActor *other)
-{
-    NS_LOG("End overlapped");
-}
-
-void AActor::InitializePhysics(bool isBullet)
-{
-    if (B2_IS_NULL(mPhysicsBody))
-    {
-        mPhysicsBody = PhysicsSystem::Get().AddListener(this, isBullet);
-    }
-}
-
-void AActor::DeinitializePhysics()
-{
-    if (B2_IS_NON_NULL(mPhysicsBody))
-    {
-        PhysicsSystem::Get().RemoveListener(mPhysicsBody);
-    }
-}
-
-void AActor::UpdatePhysicsBodyTransform()
-{
-    if (b2Body_IsValid(mPhysicsBody))
-    {
-        b2Vec2 position = ToB2Vector2(GetActorLocation());
-        ScaleVector(position, PhysicsSystem::Get().GetPhysicsScale());
-    
-        b2Rot rotation = b2MakeRot(Deg2Rad(GetActorRotation()));
-    
-        // NS_LOG("UpdatePhysicsBodyTransform: actor=%p actorPos=%f,%f scaled=%f,%f bodyId=%u",
-            //    this, GetActorLocation().x, GetActorLocation().y, position.x, position.y, mPhysicsBody);
-
-        b2Body_SetTransform(mPhysicsBody, position, rotation);
-
-        b2Vec2 bodyPos = b2Body_GetPosition(mPhysicsBody);
-        // NS_LOG("After SetTransform: bodyPos=%f,%f", bodyPos.x, bodyPos.y);
-    }
-
-}
+#pragma endregion
 
 } // namespace Nonsene
 

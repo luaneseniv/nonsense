@@ -1,19 +1,22 @@
 #pragma once
 #include <SFML/System.hpp>
 
-#include "weapon/AttackComponent.h"
+#include "component/weapon/WeaponComponent.h"
 
 namespace Nonsense
 {
-class ULaserComponent : public UAttackComponent
+class ULaserComponent : public UWeaponComponent
 {
 public:
     ULaserComponent(AActor* owner, float attackRate = 0.1f );
+    
     virtual bool CanAttack() const override;
     virtual bool IsOnCooldown() const override;
 
 private:
     virtual void AttackImpl() override;
+
+private:
     sf::Clock mCooldownClock;
     float mAttackRate;
 

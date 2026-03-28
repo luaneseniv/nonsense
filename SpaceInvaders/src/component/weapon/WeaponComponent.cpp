@@ -1,10 +1,10 @@
-#include "weapon/AttackComponent.h"
+#include "component/weapon/WeaponComponent.h"
 
 
 namespace Nonsense
 {
 
-void UAttackComponent::Attack()
+void UWeaponComponent::Attack()
 {
     if (CanAttack() && !IsOnCooldown())
     {
@@ -12,7 +12,7 @@ void UAttackComponent::Attack()
     }
 }
 
-UAttackComponent::UAttackComponent(AActor *owner)
+UWeaponComponent::UWeaponComponent(AActor *owner)
     : mOwner{owner}
 {
 
